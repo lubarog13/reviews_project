@@ -16,15 +16,25 @@
         </a>
         {% endif %}
         <a class="navigation__register" href="/accounts/register/">
-            Зарегестрироваться
+            Зарегистрироваться
         </a>
     </div>
-    <h1>Отзывы</h1>
+    <div class="heading">
+        <h1>Отзывы</h1>
+        <div class="heading__actions">
+            {% if user.is_authenticated %}
+            <a href="/review/create/"><button class="heading__actions__create">
+                Создать
+            </button>
+            </a>
+            {% endif %}
+        </div>
+    </div>
     <div class="container">
     {%for object in object_list %}
     <div class="review">
         <div class="review__author">
-            {{object.author}}
+            Автор: {{object.author}}
         </div>
         <div class="review__rating">
             <div class="review__rating-label">
@@ -43,39 +53,46 @@
             </div>
         </div>
         <div class="review__published_date">
-            Опубликовано {{object.date_created|date:"Y-m-d h:m"}}
+            Опубликовано {{object.date_created|date:"d-m-Y h:m"}}
         </div>
     </div>
     {%endfor%}
     </div>
-    <div class="actions">
-        <a href="/review/create/"><button class="actions__create">
-            Создать
-        </button>
-        </a>
-    </div>
 </body>
 
 <style>
-body {
-padding: 40px;
-}
+    body {
+    background: #a7ebb9;
+    margin: 0;
+    }
     .container {
+        padding: 20px 40px;
         display: grid;
         grid-template-columns: 1fr 1fr 1fr 1fr;
     }
 
     .navigation {
-        width: 100%;
+        height: 70px;
         display: flex;
         justify-content: flex-end;
-        align_items: center;
+        align-items: center;
         font-size: 24px;
+        background: #096d00;
         padding: 0 20px;
+    }
+
+    .navigation a {
+        color: white;
+        text-decoration: none;
     }
 
     .navigation__register {
     margin-left: 10px;
+    }
+
+    .navigation__login {
+        border-right: 2px solid white;
+        padding-right: 10px;
     }
 
     .review {
@@ -85,6 +102,8 @@ padding: 40px;
         box-shadow: 12px 12px 2px 1px rgba(0, 0, 255, .2);
         border-radius: 20px;
         width: 300px;
+        background: white;
+        margin-top: 20px;
         height: 350px;
     }
 
@@ -99,21 +118,57 @@ padding: 40px;
     flex: 1
     }
 
-    .actions {
+    .heading {
     display: flex;
     padding: 40px;
+    align-items: center;
+    padding-left: 80px;
     }
 
-    .actions__create {
+    .heading__actions__create {
         border: 1px solid grey;
         color: black;
         text-decoration: none;
-        font-size: 24px;
+        font-size: 20px;
+        margin-left: 20px;
         padding: 10px 20px;
     }
 
-    .actions__create:hover {
+    .heading__actions__create:hover {
         background: #e6e3e3;
+    }
+
+
+    .review__rating {
+        padding-top: 10px;
+    }
+
+
+    .review__text {
+        padding-top: 10px;
+        display: flex;
+        flex-direction: column;
+    }
+
+    .review__text-value {
+        margin-top: 10px;
+        border: 1px solid gray;
+        flex: 1;
+        padding: 10px;
+    }
+
+    .review__rating-label,
+    .review__text-label {
+        font-weight: 600;
+    }
+
+    .review__author {
+        font-size: 20px;
+    }
+
+    .review__published_date {
+        padding-top: 10px;
+        color: rgb(114, 114, 114);
     }
 </style>
 </html>

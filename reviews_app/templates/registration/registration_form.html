@@ -5,11 +5,22 @@
     <title>Регистрация</title>
 </head>
 <body>
-{% if form.errors %}
-  <p>Ваша форма содержит ошибки</p>
-    {% endif %}
+    <div class="navigation">
+        {% if user.is_authenticated %}
+        <a class="navigation__login" href="/accounts/logout/">
+            Выйти
+        </a>
+        {% else %}
+        <a class="navigation__login" href="/accounts/login/">
+            Войти
+        </a>
+        {% endif %}
+        <a class="navigation__register" href="/"">
+            На главную
+        </a>
+    </div>
     <div class="review">
-        <h1>Зарегестрируйтесь</h1>
+        <h1>Зарегистрируйтесь</h1>
         <form method="POST", enctype="multipart/form-data">
         {% csrf_token %}
         {{ form.as_p }}
@@ -19,9 +30,11 @@
 </body>
 <style>
     body {
-        background: grey;
+        background: #a7ebb9;
         display: flex;
+        flex-direction: column;
         height: 100vh;
+        margin: 0;
     }
     .review {
         margin: auto;
@@ -36,6 +49,47 @@
     p {
     display: flex;
     justify-content: space-between;
+    }
+
+
+
+    p input {
+        width: 300px;
+        margin-left: 20px;
+    }
+
+    .navigation {
+        height: 70px;
+        display: flex;
+        justify-content: flex-end;
+        align-items: center;
+        font-size: 24px;
+        background: #096d00;
+        padding: 0 20px;
+    }
+
+    .navigation a {
+        color: white;
+        text-decoration: none;
+    }
+
+    .navigation__register {
+    margin-left: 10px;
+    }
+
+    .navigation__login {
+        border-right: 2px solid white;
+        padding-right: 10px;
+    }
+
+    input[type=submit] {
+        border: 1px solid grey;
+        color: black;
+        margin-top: 20px;
+        padding: 10px 20px;
+    }
+    input[type=submit]:hover {
+        background: #e6e3e3;
     }
 </style>
 </html>
