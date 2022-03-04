@@ -3,6 +3,7 @@
 
 {% block extrahead %}{{ block.super }}
 <script src="{% url 'admin:jsi18n' %}"></script>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 {{ media }}
 {% endblock %}
 
@@ -60,7 +61,37 @@
 <button type="button" onclick="sendReviewToServer()">Отправить</button>
 <script>
   function sendReviewToServer() {
-      alert(window.location.pathname.replace(/\D/g,''))
+     let review_id =  window.location.pathname.replace(/\D/g,'')
+     let host = window.location.host
+     let url = `http://${host}/review/send/`;
+
+    /* let xhr = new XMLHttpRequest();
+    xhr.open("POST", url, true);
+
+    xhr.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
+
+    xhr.onreadystatechange = function () {
+      if (xhr.readyState === 4) {
+          console.log(xhr.responseText);
+      }};
+
+    let data = `{
+      "review_id": ${review_id},
+    }`;
+
+    xhr.send(data); */
+    var formData = new FormData();
+    formData.append("review_id", review_id)
+    $.ajax({
+    url: url,
+    type: 'POST',
+    data: formData,
+    processData: false,
+    contentType: false,
+    success: function(data) {
+      location.reload()
+    }
+  });
   }
 </script>
 {% endblock %}
