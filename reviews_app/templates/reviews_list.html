@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Отзывы</title>
+</head>
+<body>
+    <div class="navigation">
+        {% if user.is_authenticated %}
+        <a class="navigation__login" href="/accounts/logout/">
+            Выйти
+        </a>
+        {% else %}
+        <a class="navigation__login" href="/accounts/login/">
+            Войти
+        </a>
+        {% endif %}
+        <a class="navigation__register" href="/accounts/register/">
+            Зарегестрироваться
+        </a>
+    </div>
+    <h1>Отзывы</h1>
+    <div class="container">
+    {%for object in object_list %}
+    <div class="review">
+        <div class="review__author">
+            {{object.author}}
+        </div>
+        <div class="review__rating">
+            <div class="review__rating-label">
+                Рейтинг:
+            </div>
+            <div class="review__rating-value">
+                {{object.rating}}
+            </div>
+        </div>
+        <div class="review__text">
+            <div class="review__text-label">
+                Отзыв:
+            </div>
+            <div class="review__text-value">
+                {{object.text}}
+            </div>
+        </div>
+        <div class="review__published_date">
+            Опубликовано {{object.date_created|date:"Y-m-d h:m"}}
+        </div>
+    </div>
+    {%endfor%}
+    </div>
+    <div class="actions">
+        <a href="/review/create/"><button class="actions__create">
+            Создать
+        </button>
+        </a>
+    </div>
+</body>
+
+<style>
+body {
+padding: 40px;
+}
+    .container {
+        display: grid;
+        grid-template-columns: 1fr 1fr 1fr 1fr;
+    }
+
+    .navigation {
+        width: 100%;
+        display: flex;
+        justify-content: flex-end;
+        align_items: center;
+        font-size: 24px;
+        padding: 0 20px;
+    }
+
+    .navigation__register {
+    margin-left: 10px;
+    }
+
+    .review {
+        display: flex;
+        flex-direction: column;
+        padding: 24px;
+        box-shadow: 12px 12px 2px 1px rgba(0, 0, 255, .2);
+        border-radius: 20px;
+        width: 300px;
+        height: 350px;
+    }
+
+    .review__rating {
+        display: flex;
+    }
+    .review__rating-value {
+        margin-left: 16px
+    }
+
+    .review__text {
+    flex: 1
+    }
+
+    .actions {
+    display: flex;
+    padding: 40px;
+    }
+
+    .actions__create {
+        border: 1px solid grey;
+        color: black;
+        text-decoration: none;
+        font-size: 24px;
+        padding: 10px 20px;
+    }
+
+    .actions__create:hover {
+        background: #e6e3e3;
+    }
+</style>
+</html>

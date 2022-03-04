@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Регистрация</title>
+</head>
+<body>
+{% if form.errors %}
+  <p>Ваша форма содержит ошибки</p>
+    {% endif %}
+    <div class="review">
+        <h1>Зарегестрируйтесь</h1>
+        <form method="POST", enctype="multipart/form-data">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <input type="submit" value="Отправить">
+        </form>
+    </div>
+</body>
+<style>
+    body {
+        background: grey;
+        display: flex;
+        height: 100vh;
+    }
+    .review {
+        margin: auto;
+        background: white;
+        border-radius: 20px;
+        width: fit-content;
+        padding: 30px;
+    }
+    #id_password {
+        -webkit-text-security: disc;
+    }
+    p {
+    display: flex;
+    justify-content: space-between;
+    }
+</style>
+</html>

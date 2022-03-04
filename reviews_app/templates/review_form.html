@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Создание отзыва</title>
+</head>
+<body>
+    {% if user.is_authenticated %}
+    {% if form.errors %}
+  <p>Ваша форма содержит ошибки</p>
+    {% endif %}
+    <div class="review">
+        <h1>Напишите свой отзыв</h1>
+        <form method="POST", enctype="multipart/form-data">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <input type="submit" value="Отправить">
+        </form>
+    </div>
+    {% else %}
+        <p>Вы не вошли в систему</p>
+    {% endif %}
+</body>
+
+<style>
+    body {
+    background: grey;
+    }
+    .review {
+        margin: auto;
+        background: white;
+        border-radius: 20px;
+        width: fit-content;
+        padding: 30px;
+    }
+    input:last-child {
+        -webkit-text-security: disc;
+    }
+</style>
+</html>
