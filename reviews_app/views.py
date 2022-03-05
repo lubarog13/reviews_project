@@ -1,7 +1,7 @@
 from django.http import HttpResponse
 from django.utils import timezone
 from django.contrib.auth.hashers import make_password
-from django.shortcuts import render
+from django.shortcuts import redirect, render
 from django.views.generic.list import ListView
 from django.views.generic.edit import CreateView
 from django.views import View

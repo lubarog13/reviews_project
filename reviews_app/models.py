@@ -1,6 +1,7 @@
 from django.db import models
 from django.contrib.auth.models import AbstractUser, BaseUserManager
 from django.core.validators import MaxValueValidator, MinValueValidator
+from django.contrib.auth.hashers import make_password
 
 
 class User(AbstractUser):
@@ -11,6 +12,7 @@ class User(AbstractUser):
     password = models.CharField(max_length=128, verbose_name="Пароль")
     def __str__(self):
         return self.first_name + " " + self.last_name
+
 
     REQUIRED_FIELDS = [ 'first_name', 'last_name', 'email', 'date_joined']
 

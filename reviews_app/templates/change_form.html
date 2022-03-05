@@ -58,42 +58,47 @@
 {% for inline_admin_formset in inline_admin_formsets %}
     {% include inline_admin_formset.opts.template %}
 {% endfor %}
-<button type="button" onclick="sendReviewToServer()">Отправить</button>
+<p id="error_sending"></p>
+<button type="button" onclick="sendReviewToServer()" class="send_review">Отправить</button>
 <script>
   function sendReviewToServer() {
-     let review_id =  window.location.pathname.replace(/\D/g,'')
-     let host = window.location.host
-     let url = `http://${host}/review/send/`;
-
-    /* let xhr = new XMLHttpRequest();
-    xhr.open("POST", url, true);
-
-    xhr.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
-
-    xhr.onreadystatechange = function () {
-      if (xhr.readyState === 4) {
-          console.log(xhr.responseText);
-      }};
-
-    let data = `{
-      "review_id": ${review_id},
-    }`;
-
-    xhr.send(data); */
-    var formData = new FormData();
-    formData.append("review_id", review_id)
-    $.ajax({
-    url: url,
-    type: 'POST',
-    data: formData,
-    processData: false,
-    contentType: false,
-    success: function(data) {
-      location.reload()
-    }
-  });
+       let review_id =  window.location.pathname.replace(/\D/g,'')
+        let host = window.location.host
+        let url = `http://${host}/review/send/`;
+        var formData = new FormData();
+        formData.append("review_id", review_id)
+        $.ajax({
+        url: url,
+        type: 'POST',
+        data: formData,
+        processData: false,
+        contentType: false,
+        success: function(data) {
+          $('input[name="_continue"]').trigger('click')
+        },
+        error: function(data) {
+          $("#error_sending").text("Ошибка публикации отзыва")
+        },
+      });
   }
 </script>
+<style>
+  .send_review {
+    background: #79aec8;
+    padding: 10px 15px;
+    border: none;
+    border-radius: 4px;
+    color: white;
+    cursor: pointer;
+    transition: background 0.15s;
+    margin-bottom: 10px;
+
+  }
+
+  #error_sending {
+    color: red;
+  }
+</style>
 {% endblock %}
 
 {% block after_related_objects %}{% endblock %}

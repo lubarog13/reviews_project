@@ -52,8 +52,12 @@
                 {{object.text}}
             </div>
         </div>
+        <div class="review__published">
+            <div class="review__published-label">Опубликовано</div>
+            <input type="checkbox" onclick="return false;" {% if object.published %} checked  {% endif %}>
+        </div>
         <div class="review__published_date">
-            Опубликовано {{object.date_created|date:"d-m-Y h:m"}}
+            Создан {{object.date_created|date:"d-m-Y h:m"}}
         </div>
     </div>
     {%endfor%}
@@ -169,6 +173,14 @@
     .review__published_date {
         padding-top: 10px;
         color: rgb(114, 114, 114);
+    }
+
+    .review__published {
+        margin-top: 10px;
+        display: flex;
+    }
+    .review__published-label {
+        margin-right: 20px;
     }
 </style>
 </html>
