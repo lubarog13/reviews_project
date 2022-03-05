@@ -62,7 +62,7 @@
 <button type="button" onclick="sendReviewToServer()" class="send_review">Отправить</button>
 <script>
   function sendReviewToServer() {
-       let review_id =  window.location.pathname.replace(/\D/g,'')
+       let review_id =  '{{original.pk}}'
         let host = window.location.host
         let url = `http://${host}/review/send/`;
         var formData = new FormData();

@@ -57,7 +57,7 @@
             <input type="checkbox" onclick="return false;" {% if object.published %} checked  {% endif %}>
         </div>
         <div class="review__published_date">
-            Создан {{object.date_created|date:"d-m-Y h:m"}}
+            Создан {{object.date_created|date:"d-m-Y H:i"}}
         </div>
     </div>
     {%endfor%}
