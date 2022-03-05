@@ -3,6 +3,8 @@
 <head>
     <meta charset="UTF-8">
     <title>Отзывы</title>
+    {% load static %}
+    <link rel="stylesheet" type="text/css" href="{% static 'review/styles.css' %}">
 </head>
 <body>
     <div class="navigation">
@@ -65,38 +67,22 @@
 </body>
 
 <style>
-    body {
-    background: #a7ebb9;
-    margin: 0;
-    }
     .container {
         padding: 20px 40px;
         display: grid;
-        grid-template-columns: 1fr 1fr 1fr 1fr;
+        grid-template-columns: 1fr 1fr;
     }
 
-    .navigation {
-        height: 70px;
-        display: flex;
-        justify-content: flex-end;
-        align-items: center;
-        font-size: 24px;
-        background: #096d00;
-        padding: 0 20px;
+    @media (min-width: 900px) {
+        .container {
+            grid-template-columns: 1fr 1fr 1fr;
+        }
     }
 
-    .navigation a {
-        color: white;
-        text-decoration: none;
-    }
-
-    .navigation__register {
-    margin-left: 10px;
-    }
-
-    .navigation__login {
-        border-right: 2px solid white;
-        padding-right: 10px;
+    @media(min-width: 1200px) {
+        .container {
+            grid-template-columns: 1fr 1fr 1fr 1fr;
+        }
     }
 
     .review {

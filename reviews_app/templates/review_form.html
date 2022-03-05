@@ -3,6 +3,8 @@
 <head>
     <meta charset="UTF-8">
     <title>Создание отзыва</title>
+    {% load static %}
+    <link rel="stylesheet" type="text/css" href="{% static 'review/styles.css' %}">
 </head>
 <body>
     <div class="navigation">
@@ -38,11 +40,7 @@
 
 <style>
     body {
-    background: #a7ebb9;
-    margin: 0;
     height: 100vh;
-    display: flex;
-    flex-direction: column;
     }
     .review {
         margin: auto;
@@ -74,29 +72,6 @@
     }
     input[type=submit]:hover {
         background: #e6e3e3;
-    }
-    .navigation {
-        height: 70px;
-        display: flex;
-        justify-content: flex-end;
-        align-items: center;
-        font-size: 24px;
-        background: #096d00;
-        padding: 0 20px;
-    }
-
-    .navigation a {
-        color: white;
-        text-decoration: none;
-    }
-
-    .navigation__register {
-    margin-left: 10px;
-    }
-
-    .navigation__login {
-        border-right: 2px solid white;
-        padding-right: 10px;
     }
 
     .error {
