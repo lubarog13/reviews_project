@@ -18,8 +18,8 @@ class User(AbstractUser):
 
 
 class Review(models.Model):
-    author = models.ForeignKey(User, on_delete=models.CASCADE)
+    author = models.ForeignKey(User, on_delete=models.CASCADE, verbose_name="Автор")
     rating = models.IntegerField(validators=[MaxValueValidator(5), MinValueValidator(1)], verbose_name="Рейтинг")
     text = models.TextField(blank=True, null=True, verbose_name="Отзыв")
-    date_created = models.DateTimeField()
-    published = models.BooleanField(default=False)
+    date_created = models.DateTimeField(verbose_name="Дата создания")
+    published = models.BooleanField(default=False, verbose_name="Опубликован")
