@@ -3,11 +3,11 @@ from django.utils import timezone
 from django.contrib.auth.hashers import make_password
 from django.views.generic.list import ListView
 from django.views.generic.edit import CreateView
-from django.views import View
-from rest_framework.generics import ListAPIView
+from django.shortcuts import redirect
+from rest_framework.permissions import IsAuthenticatedOrReadOnly, IsAdminUser
 from rest_framework.views import APIView
 from rest_framework.response import Response
-from rest_framework import status
+from rest_framework import status, viewsets
 from .models import *
 from .serializers import *
 import requests
@@ -53,36 +53,32 @@ class CreateUserView(CreateView):
         return super().form_valid(form)
 
 
-class SendReviewView(View):
+class SendReviewView(APIView):
+    permission_classes = (IsAdminUser, )
+
+    def get(self, request, id):
+        review = Review.objects.get(pk = id)
+        post_data = dict(author=review.author.pk, rating=review.rating, review=review.text)
+        response = requests.post('https://webhook.site/fcc0ce3f-d15d-4264-a964-8bf28d8fa322', data=post_data)
+        if response.status_code == 200:
+            review.published = True
+            review.save()
+            return redirect(request.META.get('HTTP_REFERER'))
+        return HttpResponse(status=response.status_code)
+
+
+class ReviewApiView(APIView):
+    permission_classes = (IsAuthenticatedOrReadOnly,)
+
+    def get(self, request):
+        reviews = Review.objects.all()
+        serializer = ReviewSerializer(reviews, many=True)
+        return Response(serializer.data, status=status.HTTP_200_OK)
+
     def post(self, request):
-        if request.user.is_superuser:
-            id = request.POST.get('review_id', '')
-            review = Review.objects.get(pk = id)
-            post_data = dict(author=review.author.pk, rating=review.rating, review=review.text)
-            response = requests.post('https://webhook.site/fcc0ce3f-d15d-4264-a964-8bf28d8fa322', data=post_data)
-            if response.status_code == 200:
-                review.published = True
-                review.save()
-            return(HttpResponse(status=response.status_code))
-        return (HttpResponse(status=401))
-
-
-
-class ReviewsListAPIView(ListAPIView):
-        serializer_class = ReviewSerializer
-        queryset = Review.objects.all()
-
-
-class ReviewCreateApiView(APIView):
-    def post(self, request):
-        if request.user.is_anonymous == False:
-            request.data._mutable = True
-            request.data['author'] = request.user.id
-            request.data['date_created'] = datetime.now().strftime("%Y-%m-%dT%H:%M:%S")
-            request.data._mutable = False
-            serializer = ReviewSimpleSerializer(data=request.data)
-            if serializer.is_valid():
-                serializer.save()
-                return Response(status=status.HTTP_201_CREATED)
-            return Response(status=status.HTTP_400_BAD_REQUEST)     
-        return Response(status=status.HTTP_401_UNAUTHORIZED)          
+        serializer_context = {'author': request.user.id}
+        serializer = ReviewSerializer(data=request.data, context=serializer_context)
+        if serializer.is_valid():
+            serializer.save()
+            return Response(status=status.HTTP_201_CREATED)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)

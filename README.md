@@ -3,13 +3,12 @@
 Простой сервер с одной моделью и особенностями.
 
 ### Данное приложение реализует:
-*  авторизацию __django.auth__
+* авторизацию __django.auth__
 * запросы к стороннему серверу
-* изменение формы перед сохранением
+* переопредиление функции create в serializers
 * изменение стандартной панели администратора для модели отзыва:
     - добавление кнопки публикации
     - добавление неизменяемых полей
-    - скрипт jQuery для обработки запроса на сервер
 
 ## Установка
 
@@ -30,7 +29,7 @@ GRANT  ALL PRIVILEGES ON reviews.* TO 'review_admin'@'localhost';
 flush privileges
 ```
 
-## Список конечных точек:
+## Список url:
 
 ```python
 urlpatterns = [
@@ -39,8 +38,9 @@ urlpatterns = [
     path('accounts/register/', CreateUserView.as_view()),
     path('review/create/', ReviewCreateView.as_view()),
     path('review/send/', csrf_exempt(SendReviewView.as_view())),
-    path('api/reviews/', ReviewsListAPIView.as_view()),
-    path('api/review/create/', ReviewCreateApiView.as_view())
+    # get, post
+    path('api/review/', ReviewApiView.as_view()),
+    path('api/review/<int:id>/', SendReviewView.as_view())
 ]
 
 ```

@@ -59,29 +59,7 @@
     {% include inline_admin_formset.opts.template %}
 {% endfor %}
 <p id="error_sending"></p>
-<button type="button" onclick="sendReviewToServer()" class="send_review">Отправить</button>
-<script>
-  function sendReviewToServer() {
-       let review_id =  '{{original.pk}}'
-        let host = window.location.host
-        let url = `http://${host}/review/send/`;
-        var formData = new FormData();
-        formData.append("review_id", review_id)
-        $.ajax({
-        url: url,
-        type: 'POST',
-        data: formData,
-        processData: false,
-        contentType: false,
-        success: function(data) {
-          $('input[name="_continue"]').trigger('click')
-        },
-        error: function(data) {
-          $("#error_sending").text("Ошибка публикации отзыва")
-        },
-      });
-  }
-</script>
+    <a href="/api/review/{{original.id}}"><button type="button" class="send_review">Отправить</button></a>
 <style>
   .send_review {
     background: #79aec8;
